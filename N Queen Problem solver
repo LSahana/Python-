@@ -1,0 +1,46 @@
+import numpy as numpy
+
+n = int(input("Enter your number of queens: "))
+
+
+def main():
+    s = (n, n)
+    board = numpy.zeroes(s)
+    solve_nq(board)
+
+
+def print_ans(board):
+    for row in range(n):
+        for col in range(n):
+            print(board[row][col], end=' ')
+
+
+def is_safe(board, i, j):
+    for j in range(n):
+        if board[i][j] == 1:
+            return False
+
+    for i in range(n):
+        if board[i][j] == 1:
+            return False
+
+    for x in range(n):
+        for y in range(n):
+            if (x + y == i + j) or (x - y == i - j):
+                if board[x][y] == 1:
+                    return False
+
+    return True
+
+
+def solve_nq(board):
+    for row in range(n):
+        for col in range(n):
+            if board[row][col] != 0:
+                return False
+            else:  # no queen
+                if is_safe(board, row, col) is True:
+                    board[row][col] = 1
+                    if numpy.count_nonzero(board) == n:
+                        print_ans(board)
+                        return True
